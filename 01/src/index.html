@@ -1,16 +1,23 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <title>Login Form</title>
     <meta charset="UTF-8">
-    <script type="text/javascript" src="Login.js"></script>
+    <title>Login Form</title>
+    <script src='validation.js'></script>
+    <script src='login.js'></script>
   </head>
+
   <body>
-    <form name="loginForm" action="" method="post">
-      <p>UserName : <input type="text" name="username" /></p>
-      <p>Password : <input type="password" name="password" /></p>
-      <p id="error"></p>
-      <p><input type="button" value="ログイン" onclick="doLogin()" /></p>
+    <form id="login" action="" method="post">
+      <ul id='errors'>
+      </ul>
+      <label for='username'>UserName : </label>
+      <input id='username' type="text" name="username" />
+
+      <label for='password'>Password : </label>
+      <input id='password' type="password" name="password" />
+
+      <input id='ok' type="submit" value="ログイン" />
     </form>
   </body>
 </html>
