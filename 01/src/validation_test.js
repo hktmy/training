@@ -27,15 +27,15 @@ console.log(password_tooShort.length === 1);
 console.log(password_tooShort[0] === 'Passwordは6文字以上24文字以下です');
 
 var username_invalid = validation('!!!!!', 'aaaaaaaaaaa' );
-console.log(username_invalid === 1);
+console.log(username_invalid.length === 1);
 console.log(username_invalid[0] === 'UserNameに使用できる文字は 英小文字、`-` です');
 
 var password_invalid = validation('aaaaaaa', '^^^^^^^^' );
-console.log(password_invalid === 1);
+console.log(password_invalid.length === 1);
 console.log(password_invalid[0] === 'Passwordに使用できる文字は 英大小文字、`-`、`+`、`!`、`@` です');
 
 var all_error = validation('!', '^' );
-console.log(all_error === 4);
+console.log(all_error.length === 4);
 console.log(all_error[0] === 'UserNameは2文字以上8文字以下です');
 console.log(all_error[1] === 'UserNameに使用できる文字は 英小文字、`-` です');
 console.log(all_error[2] === 'Passwordは6文字以上24文字以下です');
