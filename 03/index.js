@@ -2,6 +2,7 @@
 var express = require('express');
 var bodyParser = require('body-parser');
 var app = express();
+var users = require('./src/model/users');
 
 // setting
 app.set('views', './views');
@@ -46,10 +47,6 @@ app.get('/ejs', function(req, res) {
   res.render('index', { id: id });
 });
 
-var users = {
-  soneda: 'abcdefg'
-};
-
 app.get('/test', function(req, res) {
   var user = req.query;
   if (users[user.username] === user.password) {
@@ -64,12 +61,16 @@ app.get('/login', function(req, res) {
 });
 
 app.post('/result', function(req, res) {
-  var user = req.body;
-  if (users[user.username] === user.password) {
-    res.send('ok');
-  } else {
-    res.send('ng');
-  }
+  var username = req.body.username;
+  var password = req.body.password;
+
+  users.login(username, password, function(err, result) {
+    if (err) {
+      console.log(err);
+      return res.send('error');
+    }
+    res.send(result);
+  });
 });
 
 //  console.log(req.body);
