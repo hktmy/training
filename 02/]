@@ -1,0 +1,63 @@
+/**
+ * UserName と Password を受け取り
+ * 正しいフォーマットかチェックする。
+ *
+ * 正しかった場合: 空の配列を返す
+ * 正しくなかった場合: メッセージを入れた配列を返す
+ *
+ * 使用例
+ * var errors = validation({ username: 'aaa', password: 'bbb' });
+ * if (errors.length > 0) {
+ *   // DOM への表示処理
+ * }
+ */
+function validation(username, password) {
+  var checkUsername = {
+    minLength: 2,
+    maxLength: 8,
+    pattern: /[^a-z-]+/
+  };
+  var checkPassword = {
+    minLength: 6,
+    maxLength: 24,
+    pattern: /[^a-zA-Z-+!@]+/
+  };
+
+  var errorMessage = [];
+  if (username.length === 0) {
+    errorMessage.push('UserNameを入力してください<br>');
+  } else if (username.length < checkUsername.minLength || checkUsername.maxLength < username.length) {
+    errorMessage.push('UserNameは' + checkUsername.minLength + '文字以上 ' + checkUsername.maxLength + '文字以下です');
+  }
+  if (username.match(checkUsername.pattern)) {
+    errorMessage.push('UserNameに使用できる文字は 英小文字、`-` です<br>');
+  }
+
+  if (password.length === 0) {
+    errorMessage.push('Passwordを入力してください<br>');
+  } else if (password.length < checkPassword.minLength || checkPassword.maxLength < password.length) {
+    errorMessage.push('Passwordは' + checkPassword.minLength + '文字以上 ' + checkPassword.maxLength + '文字以下です<br>');
+  }
+  if (password.match(checkPassword.pattern)) {
+    errorMessage.push('Passwordに使用できる文字は 英大小文字、`-`、`+`、`!`、`@` です<br>');
+  }
+
+  var error = '';
+  errorMessage.forEach(function(msg) {
+    error = error + msg; 
+  });
+
+  return errorMessage;
+  if (errorMessage.length == 0) {
+    document.getElementById('error').innerHTML = '';
+    document.loginForm.submit();
+    return console.log('post success');
+  } else {
+    return document.getElementById('error').innerHTML = error;
+  }
+
+
+}
+
+var username_tooLong = validation({ username: 'aaaaaaaaaaaaaaaaaa', password: 'aaaaaaaaa' });
+console.log(username_tooLong[0] === 'UserNameは2文字以上8文字以下です');
