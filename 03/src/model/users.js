@@ -1,5 +1,6 @@
+var Sequelize = require('sequelize');
+
 function DB(dbEndPoint) {
-  var Sequelize = require('sequelize');
   this.sequelize = new Sequelize(dbEndPoint);
   this.Users = this.sequelize.define('users', {
     id: Sequelize.INTEGER, 
