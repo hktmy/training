@@ -35,3 +35,7 @@ function validation(params) {
 
   return errorMessage;
 }
+
+if (typeof module === 'object') {
+  module.exports.validation = validation;
+}

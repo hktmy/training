@@ -12,7 +12,8 @@ function DB(dbEndPoint) {
 }
 
 DB.prototype.connect = function() {
-  return this.sequelize.sync().then(function(result) {});
+  return this.sequelize.sync();
+  // return this.sequelize.sync().then(function(result) {});
 };
 
 DB.prototype.login = function(username, password) {

@@ -3,6 +3,7 @@ var express = require('express');
 var bodyParser = require('body-parser');
 var app = express();
 var users = require('./model/users');
+var Validation = require('./model/validation');
 var DB = require('./model/users.js');
 var dbEndPoint = 'mysql://root:password@10.63.82.28:3306/soneda';
 var db = new DB.DB(dbEndPoint);
@@ -67,6 +68,12 @@ app.get('/login', function(req, res) {
 app.post('/result', function(req, res) {
   var username = req.body.username;
   var password = req.body.password;
+
+  var params = { username: username, password: password };
+  var result = Validation.validation(params);
+  if (result.length !== 0) {
+    return res.send('NG');
+  }
   
   db.connect().then(function() {
     return db.login(username, password);
