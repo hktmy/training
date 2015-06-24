@@ -12,12 +12,12 @@ var Users = sequelize.define('users', {
 });
 
 var users_data = [
-  { username: 'a', password: 'a@@' },
-  { username: 'b', password: 'b@@' },
-  { username: 'c', password: 'c@@' },
-  { username: 'd', password: 'd@@' },
-  { username: 'e', password: 'e@@' },
-  { username: 'f', password: 'f@@' },
+  { username: 'soneda', password: 'aaaaaa' },
+  { username: 'miyamoto', password: 'bbbbbb' },
+  { username: 'nagase', password: 'cccccc' },
+  { username: 'dd', password: 'dddddd' },
+  { username: 'ee', password: 'eeeeee' },
+  { username: 'ff', password: 'ffffff' },
 ];
 
 sequelize.sync().then(function(result) {

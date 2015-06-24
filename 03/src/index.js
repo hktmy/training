@@ -3,6 +3,10 @@ var express = require('express');
 var bodyParser = require('body-parser');
 var app = express();
 var users = require('./model/users');
+var DB = require('./model/users.js');
+var dbEndPoint = 'mysql://root:password@10.63.82.28:3306/soneda';
+var db = new DB.DB(dbEndPoint);
+
 
 // setting
 app.set('views', './views');
@@ -63,16 +67,17 @@ app.get('/login', function(req, res) {
 app.post('/result', function(req, res) {
   var username = req.body.username;
   var password = req.body.password;
-
-  users.login(username, password, function(err, result) {
-    if (err) {
-      console.log(err);
-      return res.send('SERVER ERROR');
-    }
+  
+  db.connect().then(function() {
+    return db.login(username, password);
+  }).then(function(result) {
     if (!result) {
       return res.send('NG');
     }
     res.send('OK');
+  }).catch(function(err) {
+    console.log(err);
+    return res.send('SERVER ERROR');
   });
 });
 
