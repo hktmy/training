@@ -5,7 +5,8 @@ var app = express();
 var users = require('./model/users');
 var Validation = require('./model/validation');
 var DB = require('./model/users.js');
-var dbEndPoint = 'mysql://root:password@10.63.82.28:3306/soneda';
+var config = ('./config');
+var dbEndPoint = config.db.mysql;
 var db = new DB.DB(dbEndPoint);
 
 
