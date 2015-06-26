@@ -17,14 +17,15 @@ app.use(bodyParser.urlencoded({extended: true}));
 
 app.get('/', function(req, res) {
   db.connect().then(function() {
-    return db.findAll();
+    return db.findAll({ order: [['username', 'ASC']] });
   }).then(function(data) {
+    var users = [];
     data.forEach(function(row) {
       var user = row.get({ plain: true });
-      console.log(user);
+      users.push(user);
     });
+    res.status(200).render('main', { users: users });
   });
-  res.render('main');
 });
 
 app.get('/login', function(req, res) {
@@ -38,19 +39,19 @@ app.post('/login', function(req, res) {
   var params = { username: username, password: password };
   var result = validater.validation(params);
   if (result.length !== 0) {
-    return res.send('NG');
+    return res.status(400).send('NG');
   }
 
   db.connect().then(function() {
     return db.login(username, password);
   }).then(function(result) {
     if (!result) {
-      return res.send('NG');
+      return res.status(401).send('NG');
     }
     res.send('OK');
   }).catch(function(err) {
     console.log(err);
-    return res.send('SERVER ERROR');
+    return res.status(500).send('SERVER ERROR');
   });
 });
 
@@ -65,17 +66,17 @@ app.post('/register', function(req, res) {
   var params = { username: username, password: password };
   var result = validater.validation(params);
   if (result.length !== 0) {
-    return res.send('NG');
+    return res.status(400).send('NG');
   }
 
   db.connect().then(function() {
     return db.regist(username, password);
   }).then(function(result) {
     console.log(result);
-    res.send('regist success');
+    res.status(201).send('regist success');
   }).catch(function(err) {
     console.log(err);
-    return res.send('SERVER ERROR');
+    return res.status(500).send('SERVER ERROR');
   });
 });
 

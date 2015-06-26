@@ -33,8 +33,9 @@ DB.prototype.regist = function(username, password) {
   return user.save();
 };
 
-DB.prototype.findAll = function() {
-  return this.Users.findAll();
+DB.prototype.findAll = function(opt_value) {
+  var option = opt_value || {};
+  return this.Users.findAll(option);
 };
 
 module.exports.DB = DB;
