@@ -48,7 +48,7 @@ app.post('/login', function(req, res) {
     if (!result) {
       return res.status(401).send('NG');
     }
-    res.send('OK');
+    res.status(200).render('success');
   }).catch(function(err) {
     console.log(err);
     return res.status(500).send('SERVER ERROR');
@@ -72,8 +72,7 @@ app.post('/register', function(req, res) {
   db.connect().then(function() {
     return db.regist(username, password);
   }).then(function(result) {
-    console.log(result);
-    res.status(201).send('regist success');
+    res.status(201).render('success');
   }).catch(function(err) {
     console.log(err);
     return res.status(500).send('SERVER ERROR');

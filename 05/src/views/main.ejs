@@ -3,17 +3,16 @@
   <head>
     <meta charset="UTF-8">
     <title>main</title>
-    <body>
   </head>
-  <h1>main page</h1>
-  <a href='/login'>login</a>
-  <a href='/register'>register</a>
-  <p>User List</p>
-  <ul>
-    <% for (var i = 0; i < users.length; i++) {%>
-    <li><%= users[i].username %></li>
-    <% } %>
-  </ul>
-
-    </body>
+  <body>
+    <h1>main page</h1>
+    <a href='/login'>login</a>
+    <a href='/register'>register</a>
+    <p>User List</p>
+    <ul>
+      <% for (var i = 0; i < users.length; i++) {%>
+      <li><%= users[i].username %></li>
+      <% } %>
+    </ul>
+  </body>
 </html>
