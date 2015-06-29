@@ -11,6 +11,13 @@
     <h1>register page</h1>
     <form id="login" action="/register" method="post">
       <ul id='errors'>
+        <% if(errorMessages) { %>
+          <% errorMessages.forEach(function(error) { %>
+            <li>
+              <%= error %>
+           </li>
+          <% }); %>
+        <% }; %>
       </ul>
       <label for='username'>UserName : </label>
       <input id='username' type="text" name="username" />
@@ -18,7 +25,7 @@
       <label for='password'>Password : </label>
       <input id='password' type="password" name="password" />
 
-      <input id='ok' type="submit" value="ログイン" />
+      <input id='ok' type="submit" value="アカウント作成" />
     </form>
   </body>
 </html>

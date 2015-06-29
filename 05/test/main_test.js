@@ -1,12 +1,16 @@
 var assert = require('assert');
-var route = require('../src/index.js');
 var request = require('superagent');
+var config = require('./config/config.json');
+var host = config.host;
 
 describe('GET /', function() {
   it('should return 200', function(done) {
     request
-      .get('http://localhost:3000')
-      .end(function (err, res) {
+      .get(host + '/')
+      .end(function(err, res) {
+        if (err) {
+          return done(err);
+        }
         assert.strictEqual(res.status, 200);
         done();
       });

@@ -2,22 +2,37 @@ var assert = require('assert');
 var validater = require('../../src/model/validation');
 
 describe('validation', function() {
-  var test_data = [
-  { username: 'username',  password: 'password',   errorsNumber: 0 },
-  { username: 'user',      password: 'passwo',     errorsNumber: 0 },
-  { username: 'abc',       password: 'abcde',      errorsNumber: 2 },
-  { username: 'abcdefghi', password: 'abcdefghi',  errorsNumber: 2 },
-  { username: '',          password: 'password',   errorsNumber: 1 },
-  { username: 'username',  password: '',           errorsNumber: 1 },
-  { username: '',          password: '',           errorsNumber: 2 },
-  { username: '@@@@@@@@',  password: '????????',   errorsNumber: 2 },
-  { username: 'username@', password: 'password?',  errorsNumber: 4 },
+  var errorMessages = {
+    usernameEmpty: 'UserNameを入力してください',
+    passwordEmpty: 'Passwordを入力してください',
+    usernameIrregalLength: 'UserNameは4文字以上8文字以下です',
+    passwordIrregalLength: 'Passwordは6文字以上8文字以下です',
+    usernameIrregalChar: 'UserNameに使用できる文字は 英小文字、`-` です',
+    passwordIrregalChar: 'Passwordに使用できる文字は 英大小文字、`-`、`+`、`!`、`@` です'
+  };
+
+  var testData = [
+    { username: 'username', password: 'password', errors: []},
+    { username: 'user', password: 'passwo', errors: []},
+    { username: 'abc', password: 'abcde', errors: [ errorMessages.usernameIrregalLength,
+                                                    errorMessages.passwordIrregalLength ]},
+    { username: 'abcdefghi', password: 'abcdefghi', errors: [ errorMessages.usernameIrregalLength,
+                                                             errorMessages.passwordIrregalLength ]},
+    { username: '', password: 'password', errors: [errorMessages.usernameEmpty]},
+    { username: 'username', password: '', errors: [errorMessages.passwordEmpty]},
+    { username: '', password: '', errors: [ errorMessages.usernameEmpty, errorMessages.passwordEmpty ]},
+    { username: '@@@@@@@@', password: '????????', errors: [ errorMessages.usernameIrregalChar,
+                                                            errorMessages.passwordIrregalChar ]},
+    { username: 'username@', password: 'password?', errors: [ errorMessages.usernameIrregalLength,
+                                                              errorMessages.usernameIrregalChar,
+                                                              errorMessages.passwordIrregalLength,
+                                                              errorMessages.passwordIrregalChar ]}
   ];
-  test_data.forEach(function(test_data) {
-    context('username is ' + test_data.username + ' and password is ' + test_data.password, function() {
-      it('errors Number should ' + test_data.errorsNumber, function() {
-        var params = { username: test_data.username, password: test_data.password }
-        assert.strictEqual(validater.validation(params).length, test_data.errorsNumber);
+  testData.forEach(function(data) {
+    context('username is ' + data.username + ' and password is ' + data.password, function() {
+      it('errors Number should ' + data.errorsNumber, function() {
+        var params = { username: data.username, password: data.password };
+        assert.deepEqual(validater.validation(params), data.errors);
       });
     });
   });
