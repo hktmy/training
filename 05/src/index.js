@@ -29,7 +29,7 @@ app.get('/', function(req, res) {
 });
 
 app.get('/login', function(req, res) {
-  res.render('login');
+  res.status(200).render('login');
 });
 
 app.post('/login', function(req, res) {
@@ -38,7 +38,7 @@ app.post('/login', function(req, res) {
 
   var params = { username: username, password: password };
   var result = validater.validation(params);
-  if (result.length !== 0) {
+  if (result.length > 0) {
     return res.status(400).send('NG');
   }
 
@@ -65,7 +65,7 @@ app.post('/register', function(req, res) {
 
   var params = { username: username, password: password };
   var result = validater.validation(params);
-  if (result.length !== 0) {
+  if (result.length > 0) {
     return res.status(400).send('NG');
   }
 
