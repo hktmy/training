@@ -1,6 +1,6 @@
 var Sequelize = require('sequelize');
 
-var config = require('./config/config');
+var config = require('../config/config');
 var sequelize = new Sequelize(config.db.mysql);
 
 var Users = sequelize.define('users', {
