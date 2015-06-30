@@ -1,3 +1,6 @@
 var index = require('./src/index.js');
 
-index.app.listen(3000);
+console.log('Starting Server...');
+index.app.listen(3000, function() {
+  console.log('Account Server Listening');
+});

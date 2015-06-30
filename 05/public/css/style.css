@@ -1,0 +1,6 @@
+ul.header {
+  text-align: right;
+}  
+li.header {
+  display: inline-block;
+}  
