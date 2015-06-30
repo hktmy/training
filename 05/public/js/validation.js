@@ -15,7 +15,8 @@ function validation(params) {
     usernameIrregalLength: 'UserNameは' + checkUsername.minLength + '文字以上' + checkUsername.maxLength + '文字以下です',
     passwordIrregalLength: 'Passwordは' + checkPassword.minLength + '文字以上' + checkPassword.maxLength + '文字以下です',
     usernameIrregalChar: 'UserNameに使用できる文字は 英小文字、`-` です',
-    passwordIrregalChar: 'Passwordに使用できる文字は 英大小文字、`-`、`+`、`!`、`@` です'
+    passwordIrregalChar: 'Passwordに使用できる文字は 英大小文字、`-`、`+`、`!`、`@` です',
+    passwordMissmatch: 'Passwordが一致していません'
   };
 
 
@@ -40,6 +41,10 @@ function validation(params) {
     if (params.password.match(checkPassword.pattern)) {
       errorMessage.push(errorMessages.passwordIrregalChar);
     }
+  }
+
+  if (params.passwordConfirm && params.password !== params.passwordConfirm) {
+    errorMessage.push(errorMessages.passwordMissmatch);
   }
 
   return errorMessage;

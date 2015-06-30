@@ -8,10 +8,14 @@ window.addEventListener('load', function() {
 
     var username = document.getElementById('username').value;
     var password = document.getElementById('password').value;
+    var passwordConfirm = document.getElementById('passwordConfirm').value;
 
     var params = { username: username, password: password };
     var result = validation(params);
-    if (result.length !== 0) {
+    if (password !== passwordConfirm) {
+      result.push('Passwordが一致していません');
+    }
+    if (result.length > 0) {
       e.preventDefault();
 
       result.forEach(function(msg) {

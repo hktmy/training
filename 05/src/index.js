@@ -29,7 +29,7 @@ app.get('/', function(req, res) {
       res.status(200).render('main', { users: users, username: req.session.username });
     });
   } else {
-    res.status(200).render('login', { errorMessages: null });
+    res.redirect('/login');
   }
 });
 
@@ -37,7 +37,7 @@ app.get('/users/:name', function(req, res) {
   if (req.session.username) {
     res.status(200).render('profile', { name: req.params.name, username: req.session.username });
   } else {
-    res.status(200).send('user page');
+    res.redirect('/login');
   }
 });
 
@@ -75,7 +75,7 @@ app.get('/logout', function(req, res) {
       return res.status(200).render('logout');
     });
   } else {
-    res.status(200).render('main');
+    res.redirect('/login');
   }
 });
 
