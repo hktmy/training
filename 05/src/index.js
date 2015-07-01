@@ -1,11 +1,11 @@
-var express = require('express');
-var session = require('express-session');
-var bodyParser = require('body-parser');
-var app = express();
-var validater = require('./model/validation');
-var DB = require('./model/users').DB;
-var config = require('../config/config');
-var db = new DB(config.db.mysql);
+import express from 'express';
+import session from 'express-session';
+import bodyParser from 'body-parser';
+import validater from './model/validation';
+import config from '../config/config';
+let DB = require('./model/users').DB;
+let db = new DB(config.db.mysql);
+let app = express();
 
 // ejs setting
 app.set('views', './src/views');
@@ -18,63 +18,61 @@ app.use(session({
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use('/public', express.static('public'));
 
-app.get('/', function(req, res) {
-  if (req.session.username) {
-    var username = req.session.username;
-    db.connect().then(function() {
-      return db.findAll({ order: [[ 'username', 'ASC' ]]});
-    }).then(function(users) {
-      users.map(function(user) {
-        user = user.get({ plain: true });
-      });
-      res.status(200).render('main', { users: users, username: username });
+app.get('/', (req, res) => {
+  if (!req.session.username) {
+    return res.redirect('/login');
+  }
+  let username = req.session.username;
+  db.connect().then(() => {
+    return db.findAll({ order: [[ 'username', 'ASC' ]]});
+  }).then((users) => {
+    users.map((user) => {
+      user = user.get({ plain: true });
     });
-  } else {
-    res.redirect('/login');
-  }
+    res.status(200).render('main', { users, username });
+  });
 });
 
-app.get('/users/:name', function(req, res) {
-  if (req.session.username) {
-    var name = req.params.name;
-    var username = req.session.username;
-    res.status(200).render('profile', { name: name, username: username });
-  } else {
-    res.redirect('/login');
+app.get('/users/:name', (req, res) => {
+  if (!req.session.username) {
+    return res.redirect('/login');
   }
+  let name = req.params.name;
+  let username = req.session.username;
+  res.status(200).render('profile', { name, username });
 });
 
-app.get('/login', function(req, res) {
+app.get('/login', (req, res) => {
   res.status(200).render('login', { errorMessages: null });
 });
 
-app.post('/login', function(req, res) {
-  var username = req.body.username;
-  var password = req.body.password;
+app.post('/login', (req, res) => {
+  let username = req.body.username;
+  let password = req.body.password;
 
-  var params = { username: username, password: password };
-  var errorMsgAry = validater.validation(params);
+  let params = { username, password };
+  let errorMsgAry = validater.validation(params);
   if (errorMsgAry.length > 0) {
     return res.status(400).render('login', { errorMessages: errorMsgAry });
   }
 
-  db.connect().then(function() {
+  db.connect().then(() => {
     return db.login(username, password);
-  }).then(function(result) {
+  }).then((result) => {
     if (!result) {
       return res.status(401).render('login', { errorMessages: ['ログイン情報が間違えています']});
     }
     req.session.username = username;
     res.status(200).redirect('/');
-  }).catch(function(err) {
+  }).catch((err) => {
     console.error(err);
     return res.status(500).render('login', { errorMessages: ['サーバー内部でエラーが発生しました']});
   });
 });
 
-app.get('/logout', function(req, res) {
+app.get('/logout', (req, res) => {
   if (req.session.username) {
-    req.session.destroy(function() {
+    req.session.destroy(() => {
       return res.status(200).render('logout');
     });
   } else {
@@ -82,26 +80,26 @@ app.get('/logout', function(req, res) {
   }
 });
 
-app.get('/register', function(req, res) {
+app.get('/register', (req, res) => {
   res.render('register', { errorMessages: null });
 });
 
-app.post('/register', function(req, res) {
-  var username = req.body.username;
-  var password = req.body.password;
+app.post('/register', (req, res) => {
+  let username = req.body.username;
+  let password = req.body.password;
 
-  var params = { username: username, password: password };
-  var result = validater.validation(params);
+  let params = { username, password };
+  let result = validater.validation(params);
   if (result.length > 0) {
     return res.status(400).render('register', { errorMessages: null });
   }
 
-  db.connect().then(function() {
+  db.connect().then(() => {
     return db.register(username, password);
-  }).then(function() {
+  }).then(() => {
     req.session.username = username;
     res.status(201).redirect('/');
-  }).catch(function(err) {
+  }).catch((err) => {
     console.error(err);
     if (err.errors[0].message === 'username must be unique') {
       return res.status(401).render('register', { errorMessages: ['`' + username + '` は既に登録されています']});

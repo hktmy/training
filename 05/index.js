@@ -1,6 +1,6 @@
-var index = require('./src/index.js');
+import index from './src/index.js';
 
 console.log('Starting Server...');
-index.app.listen(3000, function() {
+index.app.listen(3000, () => {
   console.log('Account Server Listening');
 });

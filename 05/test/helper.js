@@ -19,10 +19,10 @@ DB.prototype.connect = function() {
 DB.prototype.clear = function() {
   return this.Users.findAll()
     .then(function(users) {
-      var userDeletePromisies = users.map(function(user) {
+      var userDevarePromisies = users.map(function(user) {
         return user.destroy();
       });
-      return Promise.all(userDeletePromisies);
+      return Promise.all(userDevarePromisies);
     });
 };
 

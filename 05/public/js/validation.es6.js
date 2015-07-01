@@ -1,17 +1,15 @@
-'use strict';
-
 function validation(params) {
-  var checkUsername = {
+  let checkUsername = {
     minLength: 4,
     maxLength: 8,
     pattern: /[^a-zA-Z\-]+/
   };
-  var checkPassword = {
+  let checkPassword = {
     minLength: 6,
     maxLength: 8,
     pattern: /[^a-zA-Z\-\+\!\@\#\*\&\^\%\~]+/
   };
-  var errorMessages = {
+  let errorMessages = {
     usernameEmpty: 'UserNameを入力してください',
     passwordEmpty: 'Passwordを入力してください',
     usernameIrregalLength: 'UserNameは' + checkUsername.minLength + '文字以上' + checkUsername.maxLength + '文字以下です',
@@ -21,7 +19,8 @@ function validation(params) {
     passwordMissmatch: 'Passwordが一致していません'
   };
 
-  var errorMessage = [];
+
+  let errorMessage = [];
   if (params.username.length === 0) {
     errorMessage.push(errorMessages.usernameEmpty);
   } else {
@@ -54,4 +53,3 @@ function validation(params) {
 if (typeof module === 'object') {
   module.exports.validation = validation;
 }
-

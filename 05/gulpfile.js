@@ -16,11 +16,8 @@ gulp.task('lint', function() {
     .pipe(eslint.failOnError());
 });
 
-gulp.task('test', ['lint'], function() {
+// gulp.task('test', ['lint'], function() {
+gulp.task('test', function() {
   return gulp.src(paths.tests)
     .pipe(mocha({ reporter: 'spec' }));
-});
-
-gulp.task('watch', ['test'], function() {
-  gulp.watch(paths.watch, ['test']);
 });

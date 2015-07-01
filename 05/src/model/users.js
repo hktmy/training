@@ -1,41 +1,40 @@
-var Sequelize = require('sequelize');
+let Sequelize = require('sequelize');
 
-function DB(dbEndPoint) {
-  this.sequelize = new Sequelize(dbEndPoint);
-  this.Users = this.sequelize.define('users', {
-    id: Sequelize.INTEGER,
-    username: Sequelize.STRING,
-    password: Sequelize.STRING
-  }, {
-    timestamps: false
-  });
-}
-
-DB.prototype.connect = function() {
-  return this.sequelize.sync();
-};
-
-DB.prototype.login = function(username, password) {
-  return this.Users.findOne({ where: { username: username }})
-    .then(function(user) {
-      if (!user) {
-        return false;
-      }
-      if (user.password !== password) {
-        return false;
-      }
-      return true;
+export class DB {
+  constructor(dbEndPoint) {
+    this.sequelize = new Sequelize(dbEndPoint);
+    this.Users = this.sequelize.define('users', {
+      id: Sequelize.INTEGER,
+      username: Sequelize.STRING,
+      password: Sequelize.STRING
+    }, {
+      timestamps: false
     });
-};
+  };
 
-DB.prototype.register = function(username, password) {
-  var user = this.Users.build({ username: username, password: password });
-  return user.save();
-};
+  connect() {
+    return this.sequelize.sync();
+  };
 
-DB.prototype.findAll = function(optValue) {
-  var option = optValue || {};
-  return this.Users.findAll(option);
-};
+  login(username, password) {
+    return this.Users.findOne({ where: { username: username }})
+      .then((user) => {
+        if (!user) {
+          return false;
+        }
+        if (user.password !== password) {
+          return false;
+        }
+        return true;
+      });
+  };
+  register(username, password) {
+    let user = this.Users.build({ username: username, password: password });
+    return user.save();
+  };
 
-module.exports.DB = DB;
+  findAll(optValue) {
+    let option = optValue || {};
+    return this.Users.findAll(option);
+  };
+}

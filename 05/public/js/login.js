@@ -1,21 +1,21 @@
-window.addEventListener('load', function() {
-  var $login = document.getElementById('login');
-  $login.addEventListener('submit', function(e) {
-    var $errors = document.getElementById('errors');
+window.addEventListener('load', () => {
+  let $login = document.getElementById('login');
+  $login.addEventListener('submit', (e) => {
+    let $errors = document.getElementById('errors');
     while ($errors.firstChild) {
       $errors.removeChild($errors.firstChild);
     }
 
-    var username = document.getElementById('username').value;
-    var password = document.getElementById('password').value;
+    let username = document.getElementById('username').value;
+    let password = document.getElementById('password').value;
 
-    var params = { username: username, password: password };
-    var result = validation(params);
+    let params = { username: username, password: password };
+    let result = validation(params);
     if (result.length !== 0) {
       e.preventDefault();
 
-      result.forEach(function(msg) {
-        var $li = document.createElement('li');
+      result.forEach((msg) => {
+        let $li = document.createElement('li');
         $li.textContent = msg;
         $errors.appendChild($li);
       });
