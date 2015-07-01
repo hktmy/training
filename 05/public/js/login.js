@@ -9,7 +9,7 @@ window.addEventListener('load', () => {
     let username = document.getElementById('username').value;
     let password = document.getElementById('password').value;
 
-    let params = { username: username, password: password };
+    let params = { username, password };
     let result = validation(params);
     if (result.length !== 0) {
       e.preventDefault();

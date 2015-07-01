@@ -10,7 +10,7 @@ window.addEventListener('load', () => {
     let password = document.getElementById('password').value;
     let passwordConfirm = document.getElementById('passwordConfirm').value;
 
-    let params = { username: username, password: password };
+    let params = { username, password };
     let result = validation(params);
     if (password !== passwordConfirm) {
       result.push('Passwordが一致していません');
