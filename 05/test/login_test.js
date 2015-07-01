@@ -79,6 +79,7 @@ describe('POST /login', function() {
   });
 });
 
+// var agent = request.agent();
 // describe('GET /logout', function() {
 //   before(function(done) {
 //     db.connect()
@@ -95,7 +96,7 @@ describe('POST /login', function() {
 //             if (err) {
 //               return done(err);
 //             }
-//             console.log(res.header['set-cookie']);
+//             agent.saveCookies(res);
 //             done();
 //           });
 //       }).catch(function(err) {
@@ -114,11 +115,16 @@ describe('POST /login', function() {
 //
 //
 //   it('should return 200', function(done) {
-//     request
-//       .get(host + '/logout')
-//       .end(function(res) {
-//         assert.strictEqual(res.status, 200);
-//         done();
-//       });
+//     var req = request.get(host + '/');
+//     console.log(agent);
+//     agent.attachCookies(req);
+//     req.end(function(err, res) {
+//       if (err) {
+//         return done(err);
+//       }
+//       assert.strictEqual(res.status, 200);
+//       console.log(res);
+//       done();
+//     });
 //   });
 // });

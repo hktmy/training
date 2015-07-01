@@ -8,7 +8,7 @@ var config = require('../config/config');
 var db = new DB(config.db.mysql);
 
 // ejs setting
-app.set('views', __dirname + '/views');
+app.set('views', './src/views');
 app.set('view engine', 'ejs');
 
 // middle ware
@@ -20,13 +20,14 @@ app.use('/public', express.static('public'));
 
 app.get('/', function(req, res) {
   if (req.session.username) {
+    var username = req.session.username;
     db.connect().then(function() {
       return db.findAll({ order: [[ 'username', 'ASC' ]]});
     }).then(function(users) {
       users.map(function(user) {
         user = user.get({ plain: true });
       });
-      res.status(200).render('main', { users: users, username: req.session.username });
+      res.status(200).render('main', { users: users, username: username });
     });
   } else {
     res.redirect('/login');
@@ -35,7 +36,9 @@ app.get('/', function(req, res) {
 
 app.get('/users/:name', function(req, res) {
   if (req.session.username) {
-    res.status(200).render('profile', { name: req.params.name, username: req.session.username });
+    var name = req.params.name;
+    var username = req.session.username;
+    res.status(200).render('profile', { name: name, username: username });
   } else {
     res.redirect('/login');
   }
